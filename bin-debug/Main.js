@@ -180,20 +180,20 @@ var Main = (function (_super) {
     };
     Main.prototype.onEnded = function (e) {
         console.log("video play ended");
-        //    var bitmap:egret.Bitmap = new egret.Bitmap();
-        //    bitmap.bitmapData = this.video.bitmapData;
-        //    bitmap.x=0;
-        //    bitmap.y=0;
-        //     bitmap.width = this.stage.stageWidth;
-        //     bitmap.height = this.stage.stageHeight;
-        //     this.addChild(bitmap);
+        var bitmap = new egret.Bitmap();
+        bitmap.bitmapData = this.video.bitmapData;
+        bitmap.x = 0;
+        bitmap.y = 0;
+        bitmap.width = this.stage.stageWidth;
+        bitmap.height = this.stage.stageHeight;
+        this.addChild(bitmap);
         this.btnPlay = new eui.Button(); //新建播放按钮
         this.btnPlay.label = "出招";
         this.btnPlay.x = this.stage.stageWidth / 2;
         this.btnPlay.y = this.stage.stageHeight / 2;
         this.btnPlay.addEventListener(egret.TouchEvent.TOUCH_TAP, this.play, this);
         this.addChild(this.btnPlay);
-        // this.video.visible=false;
+        this.video.visible = false;
         // this.removeChild(this.video);
     };
     Main.prototype.play = function (e) {
