@@ -151,7 +151,7 @@ class Main extends eui.UILayer {
         this.video.height = this.stage.stageHeight;                //设置视频高
         this.video.fullscreen = false;          //设置是否全屏（暂不支持移动设备）
         this.video.poster = "resource/assets/bg.jpg"; //设置loding图
-        this.video.load("resource/assets/video.mp4");
+        this.video.load("resource/assets/trailer.mp4");
         this.addChild(this.video);              //将视频添加到舞台
         //监听视频加载完成
         this.video.once(egret.Event.COMPLETE, this.onLoad, this);
