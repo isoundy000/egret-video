@@ -139,6 +139,7 @@ class Main extends eui.UILayer {
     private textfield: egret.TextField;
        private video: egret.Video;
        private btnPlay: eui.Button;
+       private bitmap:egret.Bitmap;
     /**
      * 创建场景界面
      * Create scene interface
@@ -150,16 +151,24 @@ class Main extends eui.UILayer {
         this.video.width = this.stage.stageWidth;                 //设置视频宽
         this.video.height = this.stage.stageHeight;                //设置视频高
         this.video.fullscreen = false;          //设置是否全屏（暂不支持移动设备）
-        this.video.poster = "resource/assets/bg.jpg"; //设置loding图
+        // this.video.poster = "resource/assets/bg.jpg"; //设置loding图
         this.video.load("resource/assets/trailer.mp4");
-        this.addChild(this.video);              //将视频添加到舞台
+        this.video.visible=false;
+        // this.addChild(this.video);              //将视频添加到舞台
         //监听视频加载完成
         this.video.once(egret.Event.COMPLETE, this.onLoad, this);
         //监听视频加载失败
         this.video.once(egret.IOErrorEvent.IO_ERROR, this.onLoadErr, this);
         //监听视频播放完成
         this.video.once(egret.Event.ENDED,this.onEnded,this);
-  
+
+        this.bitmap = new egret.Bitmap();
+        this.bitmap.bitmapData = this.video.bitmapData;
+        this.bitmap.x=0;
+        this.bitmap.y=0;
+        this.bitmap.width = this.stage.stageWidth;
+        this.bitmap.height = this.stage.stageHeight;
+        this.addChild( this.bitmap);
      }
 
        private onLoad(e: egret.Event) {
@@ -181,20 +190,20 @@ class Main extends eui.UILayer {
     private onEnded(e: egret.Event){
          console.log("video play ended");
         
-       var bitmap:egret.Bitmap = new egret.Bitmap();
-       bitmap.bitmapData = this.video.bitmapData;
-       bitmap.x=0;
-       bitmap.y=0;
-        bitmap.width = this.stage.stageWidth;
-        bitmap.height = this.stage.stageHeight;
-         this.removeChild(this.video);
-        this.addChild(bitmap);
-        this.btnPlay= new eui.Button(); //新建播放按钮
-        this.btnPlay.label = "出招";
-        this.btnPlay.x = this.stage.stageWidth/2;
-        this.btnPlay.y = this.stage.stageHeight/2;
-        this.btnPlay.addEventListener(egret.TouchEvent.TOUCH_TAP, this.play, this);
-        this.addChild(this.btnPlay);
+    //    var bitmap:egret.Bitmap = new egret.Bitmap();
+    //    bitmap.bitmapData = this.video.bitmapData;
+    //    bitmap.x=0;
+    //    bitmap.y=0;
+    //     bitmap.width = this.stage.stageWidth;
+    //     bitmap.height = this.stage.stageHeight;
+    //      this.removeChild(this.video);
+    //     this.addChild(bitmap);
+    //     this.btnPlay= new eui.Button(); //新建播放按钮
+    //     this.btnPlay.label = "出招";
+    //     this.btnPlay.x = this.stage.stageWidth/2;
+    //     this.btnPlay.y = this.stage.stageHeight/2;
+    //     this.btnPlay.addEventListener(egret.TouchEvent.TOUCH_TAP, this.play, this);
+    //     this.addChild(this.btnPlay);
         //this.video.visible=false;
         
     }
@@ -202,7 +211,24 @@ class Main extends eui.UILayer {
     public play(e: egret.TouchEvent) {
         this.removeChild(this.btnPlay);
         this.video.play();
+        // var timer: egret.Timer = new egret.Timer(2000, 100);
+
+        // timer.addEventListener(egret.TimerEvent.TIMER, this.timerFunc, this);
+        // timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.timerComFunc, this);
+
+        // timer.start();
     }
+
+//   private timerFunc(event:egret.TimerEvent) {
+//         egret.log("timerFunc count" + (<egret.Timer>event.target).currentCount);
+//         this.bitmap.bitmapData = this.video.bitmapData;
+//     }
+
+//     private timerComFunc(event: egret.TimerEvent) {
+//         egret.log("timerComFunc count" + (<egret.Timer>event.target).currentCount);
+//         ////timerFunc count5
+//     }
+
 
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
