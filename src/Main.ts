@@ -26,7 +26,7 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-
+declare function playVideo();
 class Main extends eui.UILayer {
     /**
      * 加载进度界面
@@ -140,35 +140,41 @@ class Main extends eui.UILayer {
        private video: egret.Video;
        private btnPlay: eui.Button;
        private bitmap:egret.Bitmap;
+       
     /**
      * 创建场景界面
      * Create scene interface
      */
     protected startCreateScene(): void {
-       this.video = new egret.Video();
-        this.video.x = 0;                       //设置视频坐标x
-        this.video.y = 0;                       //设置视频坐标y
-        this.video.width = this.stage.stageWidth;                 //设置视频宽
-        this.video.height = this.stage.stageHeight;                //设置视频高
-        this.video.fullscreen = false;          //设置是否全屏（暂不支持移动设备）
-        // this.video.poster = "resource/assets/bg.jpg"; //设置loding图
-        this.video.load("resource/assets/trailer.mp4");
-        this.video.visible=false;
-        // this.addChild(this.video);              //将视频添加到舞台
-        //监听视频加载完成
-        this.video.once(egret.Event.COMPLETE, this.onLoad, this);
-        //监听视频加载失败
-        this.video.once(egret.IOErrorEvent.IO_ERROR, this.onLoadErr, this);
-        //监听视频播放完成
-        this.video.once(egret.Event.ENDED,this.onEnded,this);
+    //    this.video = new egret.Video();
+    //     this.video.x = 0;                       //设置视频坐标x
+    //     this.video.y = 0;                       //设置视频坐标y
+    //     this.video.width = this.stage.stageWidth;                 //设置视频宽
+    //     this.video.height = this.stage.stageHeight;                //设置视频高
+    //     this.video.fullscreen = false;          //设置是否全屏（暂不支持移动设备）
+    //     // this.video.poster = "resource/assets/bg.jpg"; //设置loding图
+    //     this.video.load("resource/assets/trailer.mp4");
+    //     this.video.visible=false;
+    //     // this.addChild(this.video);              //将视频添加到舞台
+    //     //监听视频加载完成
+    //     this.video.once(egret.Event.COMPLETE, this.onLoad, this);
+    //     //监听视频加载失败
+    //     this.video.once(egret.IOErrorEvent.IO_ERROR, this.onLoadErr, this);
+    //     //监听视频播放完成
+    //     this.video.once(egret.Event.ENDED,this.onEnded,this);
 
         this.bitmap = new egret.Bitmap();
-        this.bitmap.bitmapData = this.video.bitmapData;
         this.bitmap.x=0;
         this.bitmap.y=0;
         this.bitmap.width = this.stage.stageWidth;
         this.bitmap.height = this.stage.stageHeight;
         this.addChild( this.bitmap);
+      
+        var vd :any= playVideo();
+        var rt: egret.RenderTexture = new egret.RenderTexture();   //建立缓冲画布
+        rt.drawToTexture(vd, new egret.Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight));
+        this.bitmap.texture=rt;
+    
      }
 
        private onLoad(e: egret.Event) {

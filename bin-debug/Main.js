@@ -1,31 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright (c) 2014-present, Egret Technology.
-//  All rights reserved.
-//  Redistribution and use in source and binary forms, with or without
-//  modification, are permitted provided that the following conditions are met:
-//
-//     * Redistributions of source code must retain the above copyright
-//       notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright
-//       notice, this list of conditions and the following disclaimer in the
-//       documentation and/or other materials provided with the distribution.
-//     * Neither the name of the Egret nor the
-//       names of its contributors may be used to endorse or promote products
-//       derived from this software without specific prior written permission.
-//
-//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
-//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
-//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-//////////////////////////////////////////////////////////////////////////////////////
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
@@ -148,29 +120,32 @@ var Main = (function (_super) {
      * Create scene interface
      */
     Main.prototype.startCreateScene = function () {
-        this.video = new egret.Video();
-        this.video.x = 0; //设置视频坐标x
-        this.video.y = 0; //设置视频坐标y
-        this.video.width = this.stage.stageWidth; //设置视频宽
-        this.video.height = this.stage.stageHeight; //设置视频高
-        this.video.fullscreen = false; //设置是否全屏（暂不支持移动设备）
-        // this.video.poster = "resource/assets/bg.jpg"; //设置loding图
-        this.video.load("resource/assets/trailer.mp4");
-        this.video.visible = false;
-        // this.addChild(this.video);              //将视频添加到舞台
-        //监听视频加载完成
-        this.video.once(egret.Event.COMPLETE, this.onLoad, this);
-        //监听视频加载失败
-        this.video.once(egret.IOErrorEvent.IO_ERROR, this.onLoadErr, this);
-        //监听视频播放完成
-        this.video.once(egret.Event.ENDED, this.onEnded, this);
+        //    this.video = new egret.Video();
+        //     this.video.x = 0;                       //设置视频坐标x
+        //     this.video.y = 0;                       //设置视频坐标y
+        //     this.video.width = this.stage.stageWidth;                 //设置视频宽
+        //     this.video.height = this.stage.stageHeight;                //设置视频高
+        //     this.video.fullscreen = false;          //设置是否全屏（暂不支持移动设备）
+        //     // this.video.poster = "resource/assets/bg.jpg"; //设置loding图
+        //     this.video.load("resource/assets/trailer.mp4");
+        //     this.video.visible=false;
+        //     // this.addChild(this.video);              //将视频添加到舞台
+        //     //监听视频加载完成
+        //     this.video.once(egret.Event.COMPLETE, this.onLoad, this);
+        //     //监听视频加载失败
+        //     this.video.once(egret.IOErrorEvent.IO_ERROR, this.onLoadErr, this);
+        //     //监听视频播放完成
+        //     this.video.once(egret.Event.ENDED,this.onEnded,this);
         this.bitmap = new egret.Bitmap();
-        this.bitmap.bitmapData = this.video.bitmapData;
         this.bitmap.x = 0;
         this.bitmap.y = 0;
         this.bitmap.width = this.stage.stageWidth;
         this.bitmap.height = this.stage.stageHeight;
         this.addChild(this.bitmap);
+        var vd = playVideo();
+        var rt = new egret.RenderTexture(); //建立缓冲画布
+        rt.drawToTexture(vd, new egret.Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight));
+        this.bitmap.texture = rt;
     };
     Main.prototype.onLoad = function (e) {
         this.btnPlay = new eui.Button(); //新建播放按钮
@@ -207,19 +182,19 @@ var Main = (function (_super) {
     Main.prototype.play = function (e) {
         this.removeChild(this.btnPlay);
         this.video.play();
-        var timer = new egret.Timer(2000, 100);
-        timer.addEventListener(egret.TimerEvent.TIMER, this.timerFunc, this);
-        timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.timerComFunc, this);
-        timer.start();
+        // var timer: egret.Timer = new egret.Timer(2000, 100);
+        // timer.addEventListener(egret.TimerEvent.TIMER, this.timerFunc, this);
+        // timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.timerComFunc, this);
+        // timer.start();
     };
-    Main.prototype.timerFunc = function (event) {
-        egret.log("timerFunc count" + event.target.currentCount);
-        this.bitmap.bitmapData = this.video.bitmapData;
-    };
-    Main.prototype.timerComFunc = function (event) {
-        egret.log("timerComFunc count" + event.target.currentCount);
-        ////timerFunc count5
-    };
+    //   private timerFunc(event:egret.TimerEvent) {
+    //         egret.log("timerFunc count" + (<egret.Timer>event.target).currentCount);
+    //         this.bitmap.bitmapData = this.video.bitmapData;
+    //     }
+    //     private timerComFunc(event: egret.TimerEvent) {
+    //         egret.log("timerComFunc count" + (<egret.Timer>event.target).currentCount);
+    //         ////timerFunc count5
+    //     }
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
