@@ -155,7 +155,7 @@ var Main = (function (_super) {
         this.video.height = this.stage.stageHeight; //设置视频高
         this.video.fullscreen = false; //设置是否全屏（暂不支持移动设备）
         this.video.poster = "resource/assets/bg.jpg"; //设置loding图
-        this.video.load("resource/assets/video.mp4");
+        this.video.load("resource/assets/trailer.mp4");
         this.addChild(this.video); //将视频添加到舞台
         //监听视频加载完成
         this.video.once(egret.Event.COMPLETE, this.onLoad, this);
@@ -186,6 +186,7 @@ var Main = (function (_super) {
         bitmap.y = 0;
         bitmap.width = this.stage.stageWidth;
         bitmap.height = this.stage.stageHeight;
+        this.removeChild(this.video);
         this.addChild(bitmap);
         this.btnPlay = new eui.Button(); //新建播放按钮
         this.btnPlay.label = "出招";
@@ -193,8 +194,7 @@ var Main = (function (_super) {
         this.btnPlay.y = this.stage.stageHeight / 2;
         this.btnPlay.addEventListener(egret.TouchEvent.TOUCH_TAP, this.play, this);
         this.addChild(this.btnPlay);
-        this.video.visible = false;
-        // this.removeChild(this.video);
+        //this.video.visible=false;
     };
     Main.prototype.play = function (e) {
         this.removeChild(this.btnPlay);

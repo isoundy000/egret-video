@@ -187,7 +187,7 @@ class Main extends eui.UILayer {
        bitmap.y=0;
         bitmap.width = this.stage.stageWidth;
         bitmap.height = this.stage.stageHeight;
-        
+         this.removeChild(this.video);
         this.addChild(bitmap);
         this.btnPlay= new eui.Button(); //新建播放按钮
         this.btnPlay.label = "出招";
@@ -195,8 +195,8 @@ class Main extends eui.UILayer {
         this.btnPlay.y = this.stage.stageHeight/2;
         this.btnPlay.addEventListener(egret.TouchEvent.TOUCH_TAP, this.play, this);
         this.addChild(this.btnPlay);
-        this.video.visible=false;
-        // this.removeChild(this.video);
+        //this.video.visible=false;
+        
     }
 
     public play(e: egret.TouchEvent) {
