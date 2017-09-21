@@ -26,7 +26,7 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-declare function playVideo();
+declare function playVideo():any;
 class Main extends eui.UILayer {
     /**
      * 加载进度界面
